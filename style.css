@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.calculator {
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    height: 380px;
+    margin-top: 40px;
+}
+
+.numbers {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.display {
+    height: 100px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.number {
+    width: 90px;
+    height: 70px;
+    outline: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FDFD96;
+}
+
+.numberText {
+    font-size: 30px;
+}
+
+.plus, .minus, .equal, .mult, .divi, .hash {
+    background-color: #FFD1DC;
+}
+
