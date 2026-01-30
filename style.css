@@ -39,7 +39,11 @@ body {
     font-size: 30px;
 }
 
-.plus, .minus, .equal, .mult, .divi, .hash {
+.plus, .minus, .equal, .mult, .divi {
     background-color: #FFD1DC;
+}
+
+.clear {
+    background-color: #9BBEED;
 }
 
