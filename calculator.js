@@ -32,12 +32,10 @@ function operate(num1, num2, operator){
 
 function evaluate(num1, num2, operator){
     // Dividing by zero
-    console.log(num1 + " " + num2 + " " + operator);
-    // ISSUE HERE
-    if (operator === "/" && num2 === "00"){
+    if (operator === "/" && num2 === "0"){
         alert("You cannot divide by 0!!!");
-        console.log("Here");
-        display.textContent = num1 + operator;
+        display.textContent = num1;
+        var2 = 0;
     }
     else {
         let result = operate(Number(num1), Number(num2), operator);
@@ -45,33 +43,59 @@ function evaluate(num1, num2, operator){
         var1 = result;
         var2 = 0;
         isVar2 = false;
+        isResult = true;
     }
 }
 
 
 function runCalculation (symbol){
-    display.textContent += symbol;
-    if ((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/") && isOpp === false){
-        opp = symbol;
-        isOpp = true;
+    // 3 possibilities
+    // symbol
+    if ((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/") && isVar1){
+        // first operator
+        if (!isOpp){
+            display.textContent += symbol;
+            opp = symbol;
+            isOpp = true;
+        }
+        // change operator
+        else if (isOpp && !isVar2){
+            display.textContent = var1 + symbol;
+            opp = symbol;
+        }
+        // evalute/next operator
+        else if (isOpp && isVar2){
+            evaluate(var1, var2, opp);
+            opp = symbol;
+            display.textContent += symbol;
+        }
     }
-    else if ((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/") && 
-    isOpp === true && isVar1 === true && isVar2 === true){
-        evaluate(var1, var2, opp);
-        opp = symbol;
-        display.textContent += symbol;
-    }
-    else if (symbol === "="){
+    // equal
+    else if (symbol === "=" && isOpp && isVar1 && isVar2 ){
         evaluate(var1, var2, opp);
         isOpp = false;
     }
-    else if (!isOpp){
-        var1 += symbol;
-        isVar1 = true;
-    }
-    else if (isOpp){
-        var2 += symbol;
-        isVar2 = true;
+    // number
+    else if (!isNaN(symbol)){
+        // replace num
+        if (isResult && !isOpp){
+            display.textContent = symbol;
+            var1 = symbol;
+            isResult = false;
+        }
+        // first num
+        else if (!isOpp){
+            display.textContent += symbol;
+            (var1 === 0) ? var1 = symbol : var1 += symbol;
+            isVar1 = true;
+        }
+        // second num
+        else if (isOpp){
+            display.textContent += symbol;
+            (var2 === 0) ? var2 = symbol : var2 += symbol;
+            isVar2 = true;
+        }
+
     }
 
 }
@@ -82,6 +106,7 @@ function clearDisplay(){
     isOpp = false;
     isVar1 = false;
     isVar2 = false;
+    isResult = false;
     display.textContent = "";
 }
 
@@ -92,6 +117,7 @@ let opp = "+";
 let isOpp = false;
 let isVar1 = false;
 let isVar2 = false;
+let isResult = false;
 
 let one = document.querySelector(".one");
 let two = document.querySelector(".two");
@@ -127,11 +153,3 @@ mult.addEventListener("click", () => runCalculation("*"));
 divi.addEventListener("click", () => runCalculation("/"));
 equal.addEventListener("click", () => runCalculation("="));
 clear.addEventListener("click", () => clearDisplay());
-
-// TODO
-// No idea
-// Pressing = before all numbers entered
-// Dividing by zero
-// Only run when two numbers and one operator is inputted
-// When two operators inputted change last one
-// Once result outputted entering new number shouldnt append it
